@@ -1,8 +1,8 @@
 # Import
-ConsoleReporter = require('./console')
+ConsoleReporter = require('joe-reporter-console')
 
 # Prepare
-isWindows = process? and process.platform.indexOf('win') is 0
+isWindows = process?.platform?.indexOf('win') is 0
 
 # Reporter
 class ListReporter extends ConsoleReporter

@@ -1,5 +1,8 @@
 ## History
 
+- v1.2.0 April 5, 2013
+	- Split from main repo
+
 - v1.1.2 March 23, 2013
 	- Dependency updates
 
