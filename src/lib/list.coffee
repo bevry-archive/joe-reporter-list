@@ -31,8 +31,8 @@ class ListReporter extends ConsoleReporter
 			errorLogs = @joe.getErrorLogs()
 			console.log("\n"+@config.summaryFail, totalPassedTests, totalTests, totalFailedTests, totalIncompleteTests, totalErrors)
 			for errorLog,index in errorLogs
-				{suite,test,err} = errorLog
-				name = @getTestName(test or suite)
+				{suite,test,name,err} = errorLog
+				name or= @getItemName(test or suite)
 				console.log("\n"+@config.failHeading, index+1)
 				console.log("#{name}\n#{err.stack.toString()}")
 		else

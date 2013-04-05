@@ -1,5 +1,8 @@
 ## History
 
+- v1.2.1 April 5, 2013
+	- Fixed error log reporting
+
 - v1.2.0 April 5, 2013
 	- Split from main repo
 

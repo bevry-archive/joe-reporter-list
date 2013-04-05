@@ -1,6 +1,6 @@
 {
 	"name": "joe-reporter-list",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "List Reporter for the Joe Testing Framework",
 	"homepage": "https://github.com/bevry/joe-reporter-list",
 	"keywords": [
