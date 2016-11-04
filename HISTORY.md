@@ -1,5 +1,8 @@
 # History
 
+## v2.0.1 2016 November 4
+- Fixed tests not being published to npm for use in the testing ecosystem
+
 ## v2.0.0 2016 November 4
 - Updated for Joe v2
 - Configuration has changed
