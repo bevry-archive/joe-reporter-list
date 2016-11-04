@@ -1,43 +1,67 @@
-# Import
-ConsoleReporter = require('joe-reporter-console')
+/* eslint no-console:0 */
+'use strict'
 
-# Prepare
-isWindows = process?.platform?.indexOf('win') is 0
+const ConsoleReporter = require('joe-reporter-console')
 
-# Reporter
-class ListReporter extends ConsoleReporter
+/**
+List Reporter for Joe.
+Joe attaches and calls the methods of this classes instance.
+@example
+const joe = require('joe').addReporter(require('joe-reporter-list').create({color: false}))
+// joe.suite(...)
+@constructor
+@class ListReporter
+@extends ConsoleReporter
+@access public
+*/
+class ListReporter extends ConsoleReporter {
+	/**
+	Set the configuration for our instance.
+	@param {Object} [config]
+	@chainable
+	@returns {this}
+	@access public
+	*/
+	constructor (...args) {
+		super(...args)
 
-	startSuite: ->
-	startTest: ->
-	finishSuite: ->
+		// Defaults
+		if ( this.config.markFail == null )    this.config.markFail   = this.config.utf8 ? '✘ ' : 'ERR! '
+		if ( this.config.markPass == null )    this.config.markPass   = this.config.utf8 ? '✔ ' : 'OK   '
 
-	constructor: (config) ->
-		@config or= config or {}
-		@config.fail ?= if isWindows then 'ERR! ' else '✘  '
-		@config.pass ?= if isWindows then 'OK   ' else '✔  '
-		super
+		// Overrides
+		this.config.itemFinish = '$mark $name'
+	}
 
-	finishTest: (test,err) ->
-		name = @getItemName(test)
-		return @  unless name
-		check = (if err then @config.fail else @config.pass)
-		message = "#{check}#{name}"
-		console.log(message, if process? is false and err then [err,err.stack] else '')
-		@
+	/**
+	Override the console reporters start suite to do nothing
+	@returns {this}
+	*/
+	startSuite () {
+		return this
+	}
 
-	exit: (exitCode) ->
-		{totalTests,totalPassedTests,totalFailedTests,totalIncompleteTests,totalErrors} = @joe.getTotals()
-		if exitCode
-			errorLogs = @joe.getErrorLogs()
-			console.log("\n"+@config.summaryFail, totalPassedTests, totalTests, totalFailedTests, totalIncompleteTests, totalErrors)
-			for errorLog,index in errorLogs
-				{suite,test,name,err} = errorLog
-				name or= @getItemName(test or suite)
-				console.log("\n"+@config.failHeading, index+1)
-				console.log("#{name}\n#{err.stack.toString()}")
-		else
-			console.log("\n"+@config.summaryPass, totalPassedTests, totalTests)
-		console.log('')
+	/**
+	Override the console reporters start test to do nothing
+	@returns {this}
+	*/
+	startTest () {
+		return this
+	}
 
-# Export
+	/**
+	Override the console reporters finish suite to do nothing
+	@param {Suite} suite
+	@param {Error} [err]
+	@returns {this}
+	@chainable
+	@access protected
+	*/
+	finishSuite (suite, err) {
+		if ( err )  return super.finishSuite(suite, err)
+		return this
+	}
+}
+
+// Export
 module.exports = ListReporter
